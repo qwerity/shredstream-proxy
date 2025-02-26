@@ -1,0 +1,13 @@
+FROM rust:1.85-slim-bullseye
+
+RUN apt-get -qq update && apt-get install -qq -y ca-certificates libssl-dev protobuf-compiler pkg-config libudev-dev zlib1g-dev llvm clang cmake make libprotobuf-dev g++
+RUN rustup component add rustfmt && update-ca-certificates
+
+WORKDIR /usr/src/app
+COPY . .
+
+# Build dependencies first for caching
+RUN cargo build --release || true
+
+# Default command
+CMD ["cargo", "build", "--release"]
