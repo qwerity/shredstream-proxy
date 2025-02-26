@@ -1,0 +1,10 @@
+services:
+  booleye:
+    build:
+      context: .
+      dockerfile: Dockerfile.booleye
+    volumes:
+      - .:/usr/src/app
+      - ./target-booleye:/usr/src/app/target
+    working_dir: /usr/src/app
+    command: cargo build --release
